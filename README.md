@@ -1,5 +1,5 @@
 # OCP-Install-Nutanix
-
+```
 1. Creating install-config
 openshift-install create install-config --dir /root/workspace/ocpinstall/ --log-level debug
 DEBUG OpenShift Installer 4.14.34
@@ -140,3 +140,4 @@ operator-lifecycle-manager-catalog         4.14.34   True        False         F
 operator-lifecycle-manager-packageserver   4.14.34   True        False         False      67m
 service-ca                                 4.14.34   True        False         False      84m
 storage                                    4.14.34   True        False         False      84m
+```

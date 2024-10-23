@@ -1,0 +1,84 @@
+additionalTrustBundlePolicy: Always
+apiVersion: v1
+baseDomain: <basedomain>
+compute:
+- architecture: amd64
+  hyperthreading: Enabled
+  name: worker
+  platform:
+    nutanix:
+      cpus: 16
+      coresPerSocket: 2
+      memoryMiB: 131072
+      osDisk:
+        diskSizeGiB: 120
+  replicas: 4
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  platform:
+    nutanix:
+      cpus: 4
+      coresPerSocket: 2
+      memoryMiB: 32768
+      osDisk:
+        diskSizeGiB: 120
+  replicas: 3
+credentialsMode: Manual
+metadata:
+  creationTimestamp: null
+  name: <cluster-name>
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  machineNetwork:
+  - cidr: 10.0.0.0/16
+  networkType: OVNKubernetes
+  serviceNetwork:
+  - 172.30.0.0/16
+platform:
+  nutanix:
+    apiVIPs:
+    - <API-VIP>
+    ingressVIPs:
+    - <Ingress-VIP>
+    prismCentral:
+      endpoint:
+        address: <prism-central-url-or-ip>
+        port: 9440
+      password: <password-goes-here>
+      username: <username>
+    prismElements:
+    - endpoint:
+        address: <prism-element-ip>
+        port: 9440
+      uuid: 00060941-c539-3145-2135-b44506ea4e8f
+    subnetUUIDs:
+    - fb99d1aa-13e8-4e45-ae10-a71ef494cbb5
+    clusterOSImage: http://10.9.23.12:8080/ocp/rhcos/rhcos-4.14.34-x86_64-nutanix.x86_64.qcow2
+publish: External
+pullSecret: '<pull-secret-value-from-cloud.redhat.com>'
+sshKey: |
+  ssh-ed25519 your-ssh-key-goes-here root@bastion-node
+proxy:
+  httpProxy: http://172.22.22.12:8080
+  httpsProxy: http://172.22.22.12:8080
+  noProxy: 10.0.0.0/8,10.128.0.0/14,172.30.0.0/16,example.co.in,examplecorp.net,10.92.30.0/25,.cluster.local,.svc,127.0.0.1,api-int.uaxproddr.example.co.in,localhost
+additionalTrustBundle: |
+  -----BEGIN CERTIFICATE-----
+  Root-CA-Cert
+  -----END CERTIFICATE-----
+  -----BEGIN CERTIFICATE-----
+  Intermediate-CA-Cert
+  -----END CERTIFICATE-----
+  -----BEGIN CERTIFICATE-----
+  PrismCentral-Cert
+  -----END CERTIFICATE-----
+  -----BEGIN CERTIFICATE-----
+  Proxy-Cert
+  -----END CERTIFICATE-----
+  -----BEGIN CERTIFICATE-----
+  Additional-Cert-if-needed
+  -----END CERTIFICATE-----
